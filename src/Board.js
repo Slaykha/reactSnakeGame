@@ -5,27 +5,36 @@ const BOARD_SIZE = 10;
 
 const Board = () => {
     const createBoard = () =>{
-        let rowCount = 0
-        let colCount = 0
         let tempArr = []
+        let Number = 0
+        let numberArr = []
 
-        let rowNumber = []
         for(let row = 0; row < BOARD_SIZE; row++){
-            let colNumber = []
-            rowNumber.push(rowCount++)
+            numberArr = []
             for(let col = 0; col < BOARD_SIZE; col++){
-                colNumber.push(colCount++)
+                numberArr.push(Number++)
             }
-            colCount = 0
-            tempArr.push([colNumber, rowNumber])
+            tempArr.push(numberArr)
         }
         return tempArr
     }
 
-    const [snake, setSnake] = useState(new Set([12]))
+    const [snake, setSnake] = useState([12])
     const board = createBoard()
 
     const moveSnake = () =>{
+        setSnake([snake[0] + 1])
+        console.log(snake)
+    }
+
+    const drawSnake = (cell) =>{
+        var returnClass = "cell"
+        snake.map((tiles) => {
+            if(tiles === cell){
+                returnClass = "snake-cell"
+            }
+        })
+        return returnClass
     }
 
     useEffect(()=>{
@@ -40,18 +49,13 @@ const Board = () => {
 
     return (
         <div className="board">
-                {board.map((row, rowIdx) => {
-                return(<div key={rowIdx} className="row">
-                    {row.map((col, colIdx) =>{
-                        return(<div key={colIdx} className={col}>
-                            {col.map((cell, cellIdx)=>{
-                                return(
-                                    <div key={cellIdx} className="cell"></div>
-                                )
-                        })}</div>)
-                    })}
-                </div>)
-            })}
+            {board.map((row, rowIdx) => 
+                <div key={rowIdx} className="row">
+                {row.map((cell, cellIdx) =>
+                    <div key={cellIdx} className={drawSnake(cell)}>{cell}</div>
+                )}
+            </div>)
+            }
         </div>
     );
 };
