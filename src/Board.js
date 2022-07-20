@@ -34,6 +34,7 @@ const Board = () => {
                 returnClass = "snake-cell"
             }
         })
+        
         return returnClass
     }
 
