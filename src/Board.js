@@ -43,7 +43,19 @@ const Board = () => {
     }
 
     const moveSnake = () =>{
-        setSnake([snake[0] + snakeMoveTile])
+        var justChanged = false
+        if(snake[0] % 10 == 9 && !justChanged){
+            setSnake([Math.floor(snake[0] / 10) * 10])
+            justChanged = true
+            return
+        }else if(snake[0] % 10 == 0 && !justChanged){
+            setSnake([Math.floor(snake[0] / 10) * 10 + 9])
+            justChanged = true
+            return
+        }else setSnake([snake[0] + snakeMoveTile])
+
+        console.log("deneme")
+        justChanged = false
     }
 
     const drawSnake = (cell) =>{
@@ -60,7 +72,7 @@ const Board = () => {
     useEffect(()=>{
         var interval = setInterval(() => {
             moveSnake()
-        }, 50);
+        }, 1000);
 
         return () => {
             clearInterval(interval)
