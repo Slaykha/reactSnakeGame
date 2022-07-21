@@ -20,11 +20,30 @@ const Board = () => {
     }
 
     const [snake, setSnake] = useState([12])
+    const [snakeMoveTile, setSnakeMoveTile] = useState(1);
     const board = createBoard()
 
+    const handlMoveSnake = (e) =>{
+        switch(e.key){
+            case "ArrowUp":
+                setSnakeMoveTile(-BOARD_SIZE)
+                break
+            case "ArrowRight":
+                setSnakeMoveTile(1)
+                break
+            case "ArrowDown":
+                setSnakeMoveTile(BOARD_SIZE)
+                break
+            case "ArrowLeft":
+                setSnakeMoveTile(-1)
+                break
+            default:
+                return console.log(e.key)
+        }
+    }
+
     const moveSnake = () =>{
-        setSnake([snake[0] + 1])
-        console.log(snake)
+        setSnake([snake[0] + snakeMoveTile])
     }
 
     const drawSnake = (cell) =>{
@@ -41,7 +60,7 @@ const Board = () => {
     useEffect(()=>{
         var interval = setInterval(() => {
             moveSnake()
-        }, 1000);
+        }, 50);
 
         return () => {
             clearInterval(interval)
@@ -49,7 +68,7 @@ const Board = () => {
     },[snake] )   
 
     return (
-        <div className="board">
+        <div className="board" onKeyDown={(event) => {handlMoveSnake(event)}} tabIndex={0}>
             {board.map((row, rowIdx) => 
                 <div key={rowIdx} className="row">
                 {row.map((cell, cellIdx) =>
